@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+const apiBase = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
+
 export function useContactos() {
   const [contactos, setContactos] = useState([]);
   const [name, setName] = useState('');
@@ -8,7 +10,7 @@ export function useContactos() {
   const [editingId, setEditingId] = useState<number | null>(null);
 
   const fetchContactos = async () => {
-    const res = await fetch('http://localhost:3000/contactos');
+    const res = await fetch(`${apiBase}/contactos`);
     const data = await res.json();
     setContactos(data);
   };
@@ -33,7 +35,7 @@ export function useContactos() {
   };
 
   const deleteContacto = async (id: number) => {
-    await fetch(`http://localhost:3000/contactos/${id}`, { method: 'DELETE' });
+    await fetch(`${apiBase}/contactos/${id}`, { method: 'DELETE' });
     fetchContactos();
   };
 
@@ -55,8 +57,8 @@ export function useContactos() {
     }
 
     const url = editingId
-      ? `http://localhost:3000/contactos/${editingId}`
-      : 'http://localhost:3000/contactos';
+      ? `${apiBase}/contactos/${editingId}`
+      : `${apiBase}/contactos`;
     const method = editingId ? 'PATCH' : 'POST';
 
     await fetch(url, {

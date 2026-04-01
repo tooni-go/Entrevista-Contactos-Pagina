@@ -15,8 +15,6 @@ export default function Home() {
     <div className="min-h-screen bg-zinc-50 p-8 dark:bg-black font-sans text-zinc-900 dark:text-zinc-100">
       <main className="max-w-2xl mx-auto space-y-8">
 
-      <title>Antonio Contactos</title>
-
         <header className="space-y-2" 
         style={{ textAlign: 'center' }}>
           <h1 className="text-3xl font-bold tracking-tight">Pagina de Contactos</h1>
