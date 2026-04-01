@@ -1,0 +1,17 @@
+# Dependencias (No se suben porque se recrean con npm install)
+node_modules/
+.next/
+dist/
+
+# Seguridad (NUNCA subas tus llaves ni contraseñas)
+.env
+.env.local
+
+# Datos Locales (Lo que definiste en tu docker-compose.yml)
+postgres_data/
+*.db
+*.sqlite
+
+# Logs y Temporales
+npm-debug.log*
+.eslintcache
