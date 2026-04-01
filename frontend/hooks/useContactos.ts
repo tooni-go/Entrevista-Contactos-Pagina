@@ -2,24 +2,34 @@ import { useEffect, useState } from 'react';
 
 const apiBase = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000';
 
+type Contacto = { id: number; name: string; email: string };
+
 export function useContactos() {
-  const [contactos, setContactos] = useState([]);
+  const [contactos, setContactos] = useState<Contacto[]>([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [busqueda, setBusqueda] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
 
   const fetchContactos = async () => {
-    const res = await fetch(`${apiBase}/contactos`);
-    const data = await res.json();
-    setContactos(data);
+    try {
+      const res = await fetch(`${apiBase}/contactos`);
+      const data = await res.json();
+      if (!res.ok || !Array.isArray(data)) {
+        setContactos([]);
+        return;
+      }
+      setContactos(data);
+    } catch {
+      setContactos([]);
+    }
   };
 
   useEffect(() => {
     fetchContactos();
   }, []);
 
-  const contactosFiltrados = contactos.filter((c: any) => {
+  const contactosFiltrados = contactos.filter((c) => {
     const nombre = c.name.toLowerCase();
     const mail = c.email.toLowerCase();
     const term = busqueda.toLowerCase();
@@ -27,7 +37,7 @@ export function useContactos() {
     return nombre.includes(term) || mail.includes(term);
   });
 
-  const startEditing = (contacto: any) => {
+  const startEditing = (contacto: Contacto) => {
     setEditingId(contacto.id);
     setName(contacto.name);
     setEmail(contacto.email);
